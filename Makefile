@@ -1,12 +1,12 @@
 NAME 	= cub3D
 
-LIBDIR	= $(PWD)/lib/
+LIBDIR	= $(PWD)/lib
 
-LIBFT	= libft/libft.a
+LIBFT	= $(LIBDIR)/libft.a
 
-MLX		= minilibx/libmlx.a
+MLX		= $(LIBDIR)/libmlx.a
 
-SRC		= $(addprefix src/, main.c mlx.c)
+SRC		= $(addprefix src/, main.c mlx.c render.c hooks.c)
 
 OBJ		= $(SRC:%.c=%.o)
 
@@ -14,7 +14,7 @@ INCLUDE	= -Iinclude -Iminilibx -Ilibft
 
 LDFLAGS	= -L$(LIBDIR) -lm -lmlx -lft
 
-CFLAGS	= -Wall -Wextra -Werror $(INCLUDE) 
+CFLAGS	= -Wall -Wextra -Werror $(INCLUDE) -g -fsanitize=address
 
 all: $(LIBDIR) $(LIBFT) $(MLX) $(NAME)
 
