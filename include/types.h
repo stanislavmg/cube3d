@@ -7,8 +7,10 @@
 # define mapHeight 24
 
 /*** colors ***/
-# define GRAY 0x808080
-# define RED 0xFF0000
+# define GRAY	0x808080
+# define RED	0xFF0000
+# define BLUE	0x87CEEB
+# define GREEN	0x228B22
 
 /*** keycodes ***/
 # define KEY_ESC	53
@@ -16,17 +18,21 @@
 # define KEY_A 0
 # define KEY_S 1
 # define KEY_D 2
-# define KEY_ARROR_LEFT 123
-# define KEY_ARROR_RIGHT 124
+# define KEY_ARROW_LEFT 123
+# define KEY_ARROW_RIGHT 124
 
 /*** player ***/
-# define P_ANGLE_DEFAULT 90
-# define P_ROTATE_SPEED 0.05
+# define P_ANGLE_DEFAULT 66
+# define P_ROTATE_SPEED 5
 # define P_MOUSE_SENSITIVITY 0.008
 # define P_MOVE_SPEED 5
+# define P_START_POSITION 5.0
+
+/*** game ***/
 # define FOV 1.0472
 # define PI 3.1415926
 # define RAY_SPEED 0.05
+# define FPS 120
 
 enum {
 	ON_KEYDOWN = 2,
@@ -83,7 +89,5 @@ typedef struct	s_data
 	t_mlx		*wm;
 	t_player	p;
 }	t_data;
-
-
 
 #endif

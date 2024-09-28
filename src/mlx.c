@@ -53,19 +53,8 @@ void	free_mlx(t_mlx *wm)
 	free(wm);
 }
 
-// int	events_init(t_mlx *wm)
-// {
-// 	mlx_hook(fractal->win, KeyPress, KeyPressMask, events_handle, fractal);
-// 	//mlx_hook(fractal->win, ButtonPress, ButtonPressMask, mouse_handle, fractal);
-// 	mlx_hook(fractal->win,
-// 		DestroyNotify,
-// 		StructureNotifyMask,
-// 		fractal_exit,
-// 		fractal);
-// 	mlx_hook(fractal->win,
-// 		MotionNotify,
-// 		PointerMotionMask,
-// 		julia_render,
-// 		fractal);
-// 	return (0);
-// }
+int mlx_exit(t_mlx *wm)
+{
+	free_mlx(wm);
+	exit(0);
+}

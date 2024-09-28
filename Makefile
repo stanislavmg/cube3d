@@ -6,7 +6,9 @@ LIBFT	= $(LIBDIR)/libft.a
 
 MLX		= $(LIBDIR)/libmlx.a
 
-SRC		= $(addprefix src/, main.c mlx.c render.c hooks.c)
+CFILES = main.c mlx.c render.c hooks.c player.c map.c
+
+SRC		= $(addprefix src/, $(CFILES))
 
 OBJ		= $(SRC:%.c=%.o)
 
@@ -28,10 +30,10 @@ $(LIBDIR):
 	mkdir $(LIBDIR)
 
 $(LIBFT):
-	make -C libft all && mv $(LIBFT) $(LIBDIR)
+	make -C libft all && mv libft/libft.a $(LIBDIR)
 
 $(MLX):
-	make -C minilibx all && mv $(MLX) $(LIBDIR)
+	make -C minilibx all && mv minilibx/libmlx.a $(LIBDIR)
 
 clean:
 	$(RM) $(OBJ)
@@ -41,4 +43,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all configure clean fclean re 
+.PHONY: all clean fclean re 

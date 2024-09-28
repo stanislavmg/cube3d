@@ -4,19 +4,25 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include <sys/time.h>
 #include "mlx.h"
 #include "types.h"
 #include "libft.h"
 
-t_mlx	*new_mlx(void);
+extern int worldMap[mapHeight][mapWidth];
+
+t_mlx       *new_mlx(void);
+t_player	*new_player(void);
+void	    free_mlx(t_mlx *wm);
+double get_current_time();
 
 /*** render ***/
+void	draw_frame(t_player *p);
+double	cast_ray(t_pos *r, t_pos *p);
+void	draw_vertical_line(t_img *img, double dist, int x);
 void	put_pixel(int x, int y, t_img *img, int color);
-void	render(t_mlx *wm);
-void	free_mlx(t_mlx *wm);
+
 void	draw_tile(t_img *img, const t_pos *map, int color);
-void	draw_player(t_player *p);
-void	cast_rays(t_player *p);
 
 /*** hooks ***/
 int	hooks_init(t_mlx *wm, t_player *p);
