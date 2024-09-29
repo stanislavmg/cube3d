@@ -13,13 +13,26 @@
 # define GREEN	0x228B22
 
 /*** keycodes ***/
-# define KEY_ESC	53
-# define KEY_W 13
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
-# define KEY_ARROW_LEFT 123
-# define KEY_ARROW_RIGHT 124
+#ifdef __APPLE__
+	# define KEY_ESC			53
+	# define KEY_W				13
+	# define KEY_A				0
+	# define KEY_S				1
+	# define KEY_D				2
+	# define KEY_ARROW_LEFT		123
+	# define KEY_ARROW_RIGHT	124
+#else
+	# include <X11/keysym.h>
+	# include <X11/X.h>
+	# define KEY_ESC			XK_Escape
+	# define KEY_W				XK_w
+	# define KEY_A				XK_a
+	# define KEY_S				XK_s
+	# define KEY_D				XK_d
+	# define KEY_ARROW_LEFT		XK_Left
+	# define KEY_ARROW_RIGHT	XK_Right
+#endif
+
 
 /*** player ***/
 # define P_ANGLE_DEFAULT 66
@@ -32,7 +45,7 @@
 # define FOV 1.0472
 # define PI 3.1415926
 # define RAY_SPEED 0.05
-# define FPS 120
+# define FPS 60
 
 enum {
 	ON_KEYDOWN = 2,

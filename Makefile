@@ -2,26 +2,32 @@ NAME 	= cub3D
 
 LIBDIR	= $(PWD)/lib
 
-LIBFT	= $(LIBDIR)/libft.a
+ifeq ($(OS), darwin)
+	MLXDIR = minilibx_mac
+	LDFLAGS += -framework OpenGL -framework AppKit
+else
+	MLXDIR = minilibx_linux
+	LDFLAGS += -lXext -lX11 -lbsd
+endif
 
+LIBFT	= $(LIBDIR)/libft.a
 MLX		= $(LIBDIR)/libmlx.a
 
 CFILES = main.c mlx.c render.c hooks.c player.c map.c
-
 SRC		= $(addprefix src/, $(CFILES))
-
 OBJ		= $(SRC:%.c=%.o)
 
-INCLUDE	= -Iinclude -Iminilibx -Ilibft
+INCLUDE	= -Iinclude -I$(MLXDIR) -Ilibft
 
-LDFLAGS	= -L$(LIBDIR) -lm -lmlx -lft
+LDFLAGS	+= -L$(LIBDIR) -lm -lmlx -lft
 
 CFLAGS	= -Wall -Wextra -Werror $(INCLUDE) -g -fsanitize=address
+
 
 all: $(LIBDIR) $(LIBFT) $(MLX) $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) -framework OpenGL -framework AppKit
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) 
 
 %.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -33,7 +39,7 @@ $(LIBFT):
 	make -C libft all && mv libft/libft.a $(LIBDIR)
 
 $(MLX):
-	make -C minilibx all && mv minilibx/libmlx.a $(LIBDIR)
+	make -C $(MLXDIR) all && mv $(MLXDIR)/libmlx.a $(LIBDIR)
 
 clean:
 	$(RM) $(OBJ)
