@@ -48,6 +48,8 @@ static void	*new_mlx_fail(t_mlx *wm, const char *err)
 
 void	free_mlx(t_mlx *wm)
 {
+	if (!wm)
+		return ;
 	mlx_destroy_image(wm->mlx, wm->img.data);
 	mlx_destroy_window(wm->mlx, wm->win);
 	free(wm);

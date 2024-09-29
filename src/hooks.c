@@ -3,6 +3,8 @@
 
 int	hooks_init(t_mlx *wm, t_player *p)
 {
+	if (!wm || !wm->win || !p)
+		return (-1);
 	mlx_hook(wm->win, 2, 1, buttons, p);
 	mlx_hook(wm->win, ON_DESTROY, 0, mlx_exit, p);
 	return (0);
@@ -14,50 +16,6 @@ double get_current_time()
     gettimeofday(&time, NULL);
     return time.tv_sec + (time.tv_usec / 1000000.0);
 }
-
-// int	buttons(int keysym, t_player *p)
-// {
-// 	double	delta_time;
-// 	double	cur_time;
-
-// 	cur_time = get_current_time();
-// 	delta_time = cur_time - p->last_frame;
-// 	if (keysym < 0 || !p)
-// 		return (1);
-// 	if (keysym == KEY_ESC)
-// 	{
-// 		free_mlx(p->wm);
-// 		exit(0);
-// 	}
-// 	else if (keysym == KEY_W)
-// 	{
-// 		p->pos.x += sin(p->angle) * p->move_speed * delta_time;
-// 		p->pos.y += cos(p->angle) * p->move_speed * delta_time;
-// 	}
-// 	else if (keysym == KEY_A){
-// 		double strafe_angle = p->angle - PI / 2;
-// 		p->pos.x += cos(strafe_angle) * p->move_speed * delta_time;
-// 		p->pos.y += sin(strafe_angle) * p->move_speed * delta_time;	
-// 	}
-// 	else if (keysym == KEY_S)
-// 	{
-// 		p->pos.x -= sin(p->angle) * p->move_speed * delta_time;
-// 		p->pos.y -= cos(p->angle) * p->move_speed * delta_time;
-// 	}
-// 	else if (keysym == KEY_D){
-// 		double strafe_angle = p->angle - PI / 2;
-// 		p->pos.x -= cos(strafe_angle) * p->move_speed * delta_time;
-// 		p->pos.y -= sin(strafe_angle) * p->move_speed * delta_time;
-// 	}
-// 	else if (keysym == KEY_ARROR_LEFT)
-// 		p->angle += p->rotate_speed * delta_time;
-// 	else if (keysym == KEY_ARROR_RIGHT)
-// 		p->angle -= p->rotate_speed * delta_time;
-// 	draw_frame(p);
-// 	p->last_frame = cur_time;
-// 	usleep(16667);
-// 	return (0);
-// }
 
 int	buttons(int keysym, t_player *p)
 {

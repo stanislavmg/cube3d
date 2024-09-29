@@ -37,6 +37,6 @@ void	draw_tile(t_img *img, const t_pos *map, int color)
 	{
 		tile.x = -1;
 		while (++tile.x < tile_w)
-            put_pixel(tile.x + offset_x, tile.y + offset_y, img, color);
+			put_pixel(tile.x + offset_x, tile.y + offset_y, img, color);
 	}
 }
