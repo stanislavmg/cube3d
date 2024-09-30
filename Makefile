@@ -1,8 +1,7 @@
 NAME 	= cub3D
+UNAME_S := $(shell uname -s)
 
 LIBDIR	= $(PWD)/lib
-
-UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S), Darwin)
 	MLXDIR = minilibx_mac
@@ -15,16 +14,16 @@ endif
 LIBFT	= $(LIBDIR)/libft.a
 MLX		= $(LIBDIR)/libmlx.a
 
-CFILES = main.c mlx.c render.c hooks.c player.c map.c
-SRC		= $(addprefix src/, $(CFILES))
-OBJ		= $(SRC:%.c=%.o)
+CFILES	= mlx.c render.c hooks.c player.c map.c t_pos.c
+MAIN	?= src/main.c
+SRC		:= $(addprefix src/, $(CFILES)) $(MAIN)
+OBJ		:= $(SRC:%.c=%.o)
 
 INCLUDE	= -Iinclude -I$(MLXDIR) -Ilibft
 
 LDFLAGS	+= -L$(LIBDIR) -lm -lmlx -lft
 
-CFLAGS	= -Wall -Wextra -Werror $(INCLUDE) -g -fsanitize=address
-
+CFLAGS	+= -Wall -Wextra -Werror $(INCLUDE) 
 
 all: $(LIBDIR) $(LIBFT) $(MLX) $(NAME)
 
@@ -35,13 +34,16 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBDIR):
-	mkdir $(LIBDIR)
+	mkdir -p $(LIBDIR)
 
 $(LIBFT):
 	make -C libft all && mv libft/libft.a $(LIBDIR)
 
 $(MLX):
 	make -C $(MLXDIR) all && mv $(MLXDIR)/libmlx.a $(LIBDIR)
+
+debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined
+debug: all 
 
 clean:
 	$(RM) $(OBJ)
@@ -51,4 +53,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re test debug

@@ -1,8 +1,6 @@
 #include "types.h"
 #include "init.h"
 
-
-
 void	draw_map(t_mlx *wm)
 {
 	t_pos	map;
