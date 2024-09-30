@@ -38,14 +38,14 @@
 # define P_ANGLE_DEFAULT 66
 # define P_ROTATE_SPEED 5
 # define P_MOUSE_SENSITIVITY 0.008
-# define P_MOVE_SPEED 5
+# define P_MOVE_SPEED 8
 # define P_START_POSITION 5.0
 
 /*** game ***/
 # define FOV 1.0472
 # define PI 3.1415926
-# define RAY_SPEED 0.05
-# define FPS 60
+# define RAY_SPEED 0.1
+# define FPS 90
 
 enum {
 	ON_KEYDOWN = 2,

@@ -2,7 +2,9 @@ NAME 	= cub3D
 
 LIBDIR	= $(PWD)/lib
 
-ifeq ($(OS), darwin)
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Darwin)
 	MLXDIR = minilibx_mac
 	LDFLAGS += -framework OpenGL -framework AppKit
 else
