@@ -1,62 +1,48 @@
 #include "types.h"
 #include "init.h"
 
-static void	*new_mlx_fail(t_mlx *wm, const char *err);
-int	new_img(t_img *img, void *mlx);
-
-t_mlx	*new_mlx(void)
+t_mlx	new_mlx(void)
 {
-	t_mlx	*wm;
+	t_mlx	wm;
 
-	wm = (t_mlx *)ft_calloc(1, sizeof(t_mlx));
-	if (!wm)
-		return (NULL);
-	wm->mlx = mlx_init();
-	if (!wm->mlx)
-		return (new_mlx_fail(wm, "mlx_init: "));
-	wm->win = mlx_new_window(wm->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	if (!wm->win)
-		return (new_mlx_fail(wm, "mlx_new_window: "));
-	if (new_img(&wm->img, wm->mlx))
-		return (new_mlx_fail(wm, "mlx_init_img: "));
+	ft_memset(&wm, 0, sizeof(t_mlx));
+	wm.mlx = mlx_init();
+	if (!wm.mlx)
+		return (wm);
+	wm.win = mlx_new_window(wm.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	return (wm);
 }
 
-int	new_img(t_img *img, void *mlx)
+t_img	new_img(void *mlx, int w, int h)
 {
-	if (!img)
-		return (1);
-	img->data = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!img->data)
-		return (1);
-	img->data_addr = mlx_get_data_addr(
-			img->data,
-			&img->bits_per_pixel,
-			&img->size_line,
-			&img->endian);
-	if (!img->data_addr)
-		return (1);
-	return (0);
-}
+	t_img	i;
 
-static void	*new_mlx_fail(t_mlx *wm, const char *err)
-{
-	free_mlx(wm);
-	perror(err);
-	return (NULL);
+	ft_memset(&i, 0, sizeof(t_img));
+	i.data = mlx_new_image(mlx, w, h);
+	if (!i.data)
+		return (i);
+	i.data_addr = mlx_get_data_addr(
+			i.data,
+			&i.bits_per_pixel,
+			&i.size_line,
+			&i.endian);
+	if (!i.data_addr)
+	{
+		mlx_destroy_image(mlx, i.data);
+		i.data = NULL;
+	}
+	return (i);
 }
 
 void	free_mlx(t_mlx *wm)
 {
 	if (!wm)
 		return ;
-	mlx_destroy_image(wm->mlx, wm->img.data);
 	mlx_destroy_window(wm->mlx, wm->win);
-	free(wm);
 }
 
-int mlx_exit(t_mlx *wm)
+int mlx_exit(t_data *game)
 {
-	free_mlx(wm);
+	free_game_data(game);
 	exit(0);
 }

@@ -14,7 +14,8 @@ endif
 LIBFT	= $(LIBDIR)/libft.a
 MLX		= $(LIBDIR)/libmlx.a
 
-CFILES	= mlx.c render.c hooks.c player.c map.c t_pos.c
+CFILES	=	mlx.c render.c hooks.c player.c map.c\
+			t_pos.c utils.c buttons.c map_converter.c free_res.c
 MAIN	?= src/main.c
 SRC		:= $(addprefix src/, $(CFILES)) $(MAIN)
 OBJ		:= $(SRC:%.c=%.o)

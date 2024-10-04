@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 # define TYPES_H
 
+#include "cub3D.h"
+
 # define WIN_WIDTH 1440
 # define WIN_HEIGHT 900
 # define mapWidth 24
@@ -57,6 +59,17 @@ enum {
 	ON_DESTROY = 17
 };
 
+typedef enum e_input
+{
+	END = 0,
+	W = 1 << 0,
+	A = 1 << 1,
+	S = 1 << 2,
+	D = 1 << 3,
+	LEFT = 1 << 4,
+	RIGHT = 1 << 5
+}	t_input;
+
 typedef struct s_pos
 {
 	double	x;
@@ -82,25 +95,31 @@ typedef struct	s_mlx
 {
 	void	*mlx;
 	void	*win;
-	t_img	img;
 }	t_mlx;
+
+typedef struct s_text
+{
+	int		width;
+	int		height;
+	t_img	img;
+}	t_text;
 
 typedef struct	s_player
 {
 	t_pos	pos;
-	t_img	img;
-	t_mlx	*wm;
 	double	dir;
 	double	angle;
-	double	move_speed;
-	double	rotate_speed;
-	double	mouse_sens;
 }	t_player;
 
 typedef struct	s_data
 {
-	t_mlx		*wm;
+	t_mlx		win_mng;
+	t_img		main_img;
+	char **		map;
+	t_grid		*map_grid;
 	t_player	p;
+	t_text		wall[4];
+	t_input		input;
 }	t_data;
 
 #endif

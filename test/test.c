@@ -1,7 +1,7 @@
 #include "types.h"
 #include "init.h"
 #include <assert.h>
-#define T_GREEN "\033[32m"
+#define OK "\033[32m"
 #define RESET "\033[0m"
 int worldMap[mapWidth][mapHeight]=
 {
@@ -41,7 +41,7 @@ int main(void)
 	t_player p;
 	assert(hooks_init(&wm, &p) == 1);
 	assert(hooks_init(NULL, &p) == 1);
-	printf(T_GREEN"hooks_init OK\n"RESET);
+	printf(OK"hooks_init OK\n"RESET);
 
 	return (0);
 }
