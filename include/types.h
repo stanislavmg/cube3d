@@ -46,7 +46,7 @@
 /*** game ***/
 # define FOV 1.0472
 # define PI 3.1415926
-# define RAY_SPEED 0.1
+# define RAY_SPEED 0.005
 # define FPS 90
 
 enum {
@@ -80,6 +80,7 @@ typedef struct s_ray
 {
 	t_pos	pos;
 	double	dir;
+	double	angle;
 }	t_ray;
 
 typedef struct	s_img

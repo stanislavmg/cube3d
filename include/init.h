@@ -25,6 +25,8 @@ t_data		*free_game_data(t_data *game);
 /*** render ***/
 double	cast_ray(t_pos *r, t_pos *p);
 //void	draw_vertical_line(t_text *t, t_img *img, double dist, int x);
+
+void draw_vertical_line(t_ray *r, double offset, t_text *t, t_img *img, double dist, int x);
 void	put_pixel(int x, int y, t_img *img, int color);
 void	draw_frame(t_data *g);
 
