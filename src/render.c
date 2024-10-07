@@ -2,7 +2,6 @@
 #include "init.h"
 #include "tmp.h"
 
-
 double	get_offset(t_grid *g, t_pos p)
 {
 	int	i;
@@ -19,7 +18,7 @@ double	get_offset(t_grid *g, t_pos p)
 		//(x - x1) / (x2 - x1) = (y - y1) / (y2 - y1)
 		if ((int)((p.x - h[i]->start->x) / (h[i]->end->x - h[i]->start->x)) ==
 			(int)((p.y - h[i]->start->y) / (h[i]->end->y - h[i]->start->y)))
-			offset = (int)p.x % 64;
+			offset = (int)(p.x) % 64;
 		i++;
 	}
 	i = 0;
@@ -30,10 +29,11 @@ double	get_offset(t_grid *g, t_pos p)
 			offset = (int)p.y % 64;
 		i++;
 	}
-	printf("offset = %f\n", offset);
 	return (offset);
 }
+
 float FixAng(float a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
+
 void	draw_frame(t_data *g)
 {
 	int 	x;
@@ -47,16 +47,13 @@ void	draw_frame(t_data *g)
 	while (++x < WIN_WIDTH)
 	{
 		r.dir = g->p.angle + FOV / 2 - x * FOV / WIN_WIDTH;
-		float ca = g->p.angle - r.angle;
 		r.pos.x = sin(r.dir);
 		r.pos.y = cos(r.dir);
 		dist = cast_ray(&r.pos, &g->p.pos);
 		dist = dist * cos(g->p.angle - r.dir);
-		(void)ca;
 		double	offset = get_offset(g->map_grid, r.pos);
 		draw_vertical_line(&r, offset, &g->wall[0], &g->main_img, dist, x);
 	}
-	//printf("wall height = %d\n width = %d\n", g->wall->height, g->wall->width);
 	mlx_put_image_to_window(g->win_mng.mlx, g->win_mng.win, g->main_img.data, 0, 0);
 }
 
@@ -93,6 +90,7 @@ double	cast_ray(t_pos *r, t_pos *p)
 	r->y = t.y;
 	return (dist);
 }
+
 void draw_vertical_line(t_ray *r, double offset, t_text *t, t_img *img, double dist, int x)
 {
     if (!img || !t || !t->img.data_addr)
@@ -102,30 +100,43 @@ void draw_vertical_line(t_ray *r, double offset, t_text *t, t_img *img, double d
     int wall = (int)(WIN_HEIGHT / 2 - WIN_HEIGHT * FOV / dist);
     int floor = WIN_HEIGHT - wall;
 
+ 	int lineH; 
+
+	double tx = (int)(x - r->pos.x) % t->width;
+	if (r->dir > 90 && r->dir < 270)
+		tx = t->width - 1 - tx;
+	double ty_off=0;
+	int index;
+    double ty_step;
     double ty = 0.0;
-	double tx = (int)(r->pos.y / 2.0) % 32;
-	if (r->dir > 90 && r->dir < 270) { tx = 31 - tx;}
-	(void)r;
-    double ty_step; 
-	(void)offset;
     for (int y = 0; y < WIN_HEIGHT; y++)
     {
         if (y < wall)
             c = BLUE; 
         else if (y >= wall && y < floor)
         {
-			if (y == wall)
-				ty_step = 32.0 / (floor - y);
-			if (All_Textures[(int)(ty) * 32 + (int)tx] == 0)
-				c = 0x000000;
-			else
-				c = 0xFFFFFF;
-        	ty += ty_step;
+			lineH = floor - y;
+			ty_step = (double)t->height / lineH;
+ 			if (lineH > WIN_HEIGHT)
+			{
+				ty_off=fabs((WIN_HEIGHT - lineH) / 2.0); 
+				lineH=WIN_HEIGHT;
+			}
+			ty = ty_off * ty_step;
+			(void)offset;
+			for(int i = 0; i < lineH; ++i)
+			{
+				index = (int)ty * 64 + tx;
+				c = ((int *)t->img.data_addr)[index];
+ 		       	ty += ty_step;
+       			put_pixel(x, y, img, c);
+				y++;
+			}
         }
 		else
             c = GREEN;
         put_pixel(x, y, img, c);
-    }
+	}
 }
 
 void	put_pixel(int x, int y, t_img *img, int color)
