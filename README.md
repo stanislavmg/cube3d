@@ -1,4 +1,4 @@
-# cub3D
+# cube3D
 
 This project is an implementation of a simple raycasting engine. The program renders a 3D maze, allowing the user to navigate it through keyboard input.
 
